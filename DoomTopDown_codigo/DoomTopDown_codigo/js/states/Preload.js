@@ -8,12 +8,16 @@ Preload.prototype = {
 		this.game.scale.pageAlignVertically = true;
 
 		//cargar jugador
-		this.game.load.image("player","assets/Player/hitman1_machine.png")
+		this.game.load.image("player","assets/Player/hitman1_gun.png")
 		this.game.load.image("bala","assets/Player/bullet.png")
 		//cargar mapa
 		this.game.load.image("background","assets/Mapa/Tiles/tile_01.png");
-		
-	
+		//cargar enemigos
+		this.game.load.image("robot","assets/Enemies/Robot/robot1_hold.png")
+		this.game.load.image("soldier","assets/Enemies/Soldier/soldier1_hold.png")
+		this.game.load.image("zombie","assets/Enemies/Zombie/zoimbie1_hold.png")
+		//cargar JSON
+		this.game.load.text("enemigosData","assets/Enemies/Enemigos.json");	
 		
 	},
 	create:function(){

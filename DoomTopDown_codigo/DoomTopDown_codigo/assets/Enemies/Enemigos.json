@@ -1,0 +1,20 @@
+[
+  {
+    "asset": "zombie",
+    "health": 3,
+    "attack": 0.1,
+    "velocity": 60
+  },
+  {
+    "asset": "soldier",
+    "health": 2,
+    "attack": 0.1,
+    "velocity": 100
+  },
+  {
+    "asset": "robot",
+    "health": 6,
+    "attack": 0.1,
+    "velocity": 40
+  }
+]

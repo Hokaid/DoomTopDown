@@ -11,14 +11,22 @@ Game.prototype = {
 		this.bullets=this.game.add.group();
 	},
 	
-	create:function(){
-		//Crear Background
+	
+	create:function(){	
+		//Crear mapa
 		this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
-		//Inicializar Player
+
+
+
+		//Crear jugador
 		this.player = this.game.add.sprite(50,140,'player');
 		this.player.anchor.setTo(0.5);
 		this.player.angle=270;
 		this.game.physics.enable(this.player);
+
+	
+
+		
 		
 	},	
 

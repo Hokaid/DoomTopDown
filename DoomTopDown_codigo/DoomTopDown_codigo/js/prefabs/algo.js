@@ -5,7 +5,6 @@ Zombie = function(game,x,y,element){
     this.anchor.setTo(0.5);
     this.game.physics.arcade.enable(this);
     this.reset(x,y,element);
-    //aaa
     //mensaje de prueba
 } 
 Zombie.prototype = Object.create(Phaser.Sprite.prototype);

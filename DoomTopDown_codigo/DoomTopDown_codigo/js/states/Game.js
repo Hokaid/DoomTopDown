@@ -18,7 +18,7 @@ Game.prototype = {
 		//Crear jugador
 		this.player = this.game.add.sprite(this.game.width/2,this.game.height/2,'player');
 		this.player.anchor.setTo(0.5);
-		this.player.angle=270;
+		this.player.angle=90;
 		this.game.physics.enable(this.player);
 		this.player.body.collideWorldBounds=true;
 		//Crear Grupos
@@ -38,11 +38,12 @@ Game.prototype = {
 		//Tiempo
 		this.shootInterval += this.time.elapsed;
 		this.enemigosInterval+=this.time.elapsed;
-		//Enemigos
-		if(this.enemigosInterval>=2000){
+		//Enemmigos
+		if(this.enemigosInterval>=1000){
 			this.enemigosInterval=0;
-			console.log(this.enemigosData[this.currentEnemigo])
-			this.generarEnemigos(this.enemigosData[this.currentEnemigo])
+			//console.log(this.enemigosData[this.currentEnemigo])
+			this.direccion=this.game.rnd.integerInRange(0,3);
+			this.generarEnemigos(this.enemigosData[this.currentEnemigo],this.direccion)
 			this.currentEnemigo++;
 			
 			if(this.totalEnemigos<=this.currentEnemigo){
@@ -78,11 +79,34 @@ Game.prototype = {
             this.shootInterval = 0;
             this.shoot(this.direccion_j);
         }
+		this.enemigos.forEach(function(element){
+			if(this.player.posX<element.posX){
+				element.body.velocity.x = -100;
+			}else if(this.player.posX>element.posX){
+				element.body.velocity.x = 100;
+			}
+			if(this.player.posY<element.posY){
+				element.body.velocity.y = -100;
+			}else if(this.player.posY>element.posY){
+				element.body.velocity.y = 100;
+			}
+		},this);
 
 	},
-	generarEnemigos:function(enemigosData){
-		let posX = this.game.rnd.integerInRange(0,this.game.height-50);
-        let posY = this.game.rnd.integerInRange(0,this.game.width-50);
+	generarEnemigos:function(enemigosData,direccion){
+		//let posX = this.game.rnd.integerInRange(0,this.game.height-70);
+		let posX, posY;
+		switch(direccion){
+			case 0:{posX=-50;
+				posY = this.game.rnd.integerInRange(0,this.game.height-100);}break;
+			case 1:{posX=this.game.width+50;
+				posY = this.game.rnd.integerInRange(0,this.game.height-100);}break;
+			case 2:{posX=this.game.rnd.integerInRange(0,this.game.width-50);
+				posY = -50;}break;
+			case 3:{posX=this.game.rnd.integerInRange(0,this.game.width-100);
+				posY = this.game.height+50;}break;
+		}
+		console.log(posX,posY)
         let enemigo = this.enemigos.getFirstDead();
         if(enemigo){
             enemigo.reset(posX,posY,enemigosData);            
@@ -100,29 +124,22 @@ Game.prototype = {
         var bullet = this.bullets.getFirstDead();
         if(bullet){
             bullet.reset(this.player.x,this.player.y);
-            switch(direccion){
-				case 0: {bullet.body.velocity.x=650;break;}
-				case 1: {bullet.body.velocity.y=650;break;}
-				case 2: {bullet.body.velocity.x=-650;break;}
-				case 3: {bullet.body.velocity.y=-650;break;}
-			}
-			bullet.checkWorldBounds = true;
-            bullet.outOfBoundsKill  = true;
+            
         }else{
             bullet = this.game.add.sprite(this.player.x,this.player.y,'bala');
             this.bullets.add(bullet);
             bullet.scale.setTo(1);
             bullet.anchor.setTo(0.5);
-            this.game.physics.arcade.enable(bullet);
-            switch(direccion){
-				case 0: {bullet.body.velocity.x=650;break;}
-				case 1: {bullet.body.velocity.y=650;break;}
-				case 2: {bullet.body.velocity.x=-650;break;}
-				case 3: {bullet.body.velocity.y=-650;break;}
-			}
-            bullet.checkWorldBounds = true;
-            bullet.outOfBoundsKill  = true;
+            this.game.physics.arcade.enable(bullet);           
         }
+		switch(direccion){
+			case 0: {bullet.body.velocity.x=650;break;}
+			case 1: {bullet.body.velocity.y=650;break;}
+			case 2: {bullet.body.velocity.x=-650;break;}
+			case 3: {bullet.body.velocity.y=-650;break;}
+		}
+		bullet.checkWorldBounds = true;
+		bullet.outOfBoundsKill  = true;
 
     }
 	

@@ -3,6 +3,7 @@ Enemigo = function(game,x,y,element){
     this.game = game;
     this.element = element;
     this.anchor.setTo(0.5);
+    this.velocity = element.velocity;
     this.game.physics.arcade.enable(this);
     this.reset(x,y,element);
 }
@@ -15,8 +16,7 @@ Enemigo.prototype.reset = function(x,y,data){
     this.loadTexture(data.asset);
     this.attack = data.attack;
     this.health = data.health;
-    this.defaultVelocity = data.velocity;    
-    this.body.velocity.x = this.defaultVelocity;
+    this.defaultVelocity = data.velocity;
 },
 
 Enemigo.prototype.damage = function(amount){

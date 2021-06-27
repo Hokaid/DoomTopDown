@@ -80,15 +80,14 @@ Game.prototype = {
             this.shoot(this.direccion_j);
         }
 		this.enemigos.forEach(function(element){
-			if(this.player.posX<element.posX){
-				element.body.velocity.x = -100;
-			}else if(this.player.posX>element.posX){
-				element.body.velocity.x = 100;
-			}
-			if(this.player.posY<element.posY){
-				element.body.velocity.y = -100;
-			}else if(this.player.posY>element.posY){
-				element.body.velocity.y = 100;
+			if(Math.abs(element.x-this.player.x) > Math.abs(element.y-this.player.y)) {
+				if(element.x<this.player.x) { element.body.velocity.x = element.velocity; }
+				else {element.body.velocity.x = -1*element.velocity;}
+				element.body.velocity.y = 0;
+			} else {
+				if(element.y<this.player.y) { element.body.velocity.y = element.velocity; }
+				else {element.body.velocity.y = -1*element.velocity;}
+				element.body.velocity.x = 0;
 			}
 		},this);
 

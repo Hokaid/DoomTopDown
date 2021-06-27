@@ -24,7 +24,7 @@ Menu.prototype = {
         this.Start_Button = this.game.add.sprite(0,0,'Start');
         this.Start_Button.anchor.setTo(0.5);
         this.Start_Button.scale.setTo(2);
-        this.Start_Button.x = ((this.game.width-this.Start_Button.width)/2)+120;
+        this.Start_Button.x = ((this.game.width-this.Start_Button.width)/2)+110;
         this.Start_Button.y = ((this.game.height-this.Start_Button.height)/2)+200;
         this.Start_Button.scale.setTo(2);
         this.Start_Button.inputEnabled = true;
@@ -34,7 +34,7 @@ Menu.prototype = {
     },
     click:function(){
         if (this.Start_Button.visible == true)
-            this.game.state.start("Preload");
+            this.game.state.start("Game");
     }
 
 }

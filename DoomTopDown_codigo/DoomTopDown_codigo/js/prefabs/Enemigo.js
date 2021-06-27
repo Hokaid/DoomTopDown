@@ -29,7 +29,5 @@ Enemigo.prototype.damage = function(amount){
     emitter.start(true,200,null,100);
     if(this.health<=0){
         this.kill();
-        //let body = this.game.add.sprite(this.x,this.bottom,'dead_Enemigo');
-        //body.anchor.setTo(0.5);
     }
 }

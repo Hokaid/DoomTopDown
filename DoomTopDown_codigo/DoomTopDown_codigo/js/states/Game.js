@@ -21,6 +21,7 @@ Game.prototype = {
 		this.player.angle=90;
 		this.game.physics.enable(this.player);
 		this.player.body.collideWorldBounds=true;
+		this.vidas = 100;
 		//Crear Grupos
 		this.enemigos=this.game.add.group();
 
@@ -91,8 +92,10 @@ Game.prototype = {
 			}
 		},this);
 
-		//Colisión enemigos
+		//Colisión enemigos y balas
 		this.game.physics.arcade.overlap(this.enemigos, this.bullets, null, this.DamageEnemies, this);
+		//Colisión enemigos y jugador
+		this.game.physics.arcade.overlap(this.player, this.enemigos, null, this.DamagePlayer, this);
 
 	},
 	generarEnemigos:function(enemigosData,direccion){
@@ -125,6 +128,19 @@ Game.prototype = {
 	DamageEnemies:function(enemigo, bala) {
 		enemigo.damage(1);
 		bala.kill();
+	},
+	DamagePlayer:function(player){
+		this.vidas--;
+		let emitter = this.game.add.emitter(this.x,this.y,50);
+        emitter.makeParticles('blood');
+        emitter.minParticleSpeed.setTo(-100,-100);
+        emitter.maxParticleSpeed.setTo(100,100);    
+        emitter.gravity = 300;
+        emitter.start(true,200,null,100);
+		if (this.vidas <= 0) { 
+			player.kill();
+			this.game.state.start("GameOver"); 
+		}
 	},
 	shoot:function(direccion){
         var bullet = this.bullets.getFirstDead();

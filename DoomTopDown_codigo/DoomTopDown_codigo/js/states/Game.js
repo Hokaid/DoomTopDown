@@ -39,7 +39,7 @@ Game.prototype = {
 		this.shootInterval += this.time.elapsed;
 		this.enemigosInterval+=this.time.elapsed;
 		//Enemmigos
-		if(this.enemigosInterval>=1000){
+		if(this.enemigosInterval>=2000){
 			this.enemigosInterval=0;
 			//console.log(this.enemigosData[this.currentEnemigo])
 			this.direccion=this.game.rnd.integerInRange(0,3);
@@ -91,6 +91,9 @@ Game.prototype = {
 			}
 		},this);
 
+		//Colisión enemigos
+		this.game.physics.arcade.overlap(this.enemigos, this.bullets, null, this.DamageEnemies, this);
+
 	},
 	generarEnemigos:function(enemigosData,direccion){
 		//let posX = this.game.rnd.integerInRange(0,this.game.height-70);
@@ -119,6 +122,10 @@ Game.prototype = {
         let bullet = new Bullet(this.game,posX,posY,this.direccion_j);
         this.bullets.add(bullet);
     },
+	DamageEnemies:function(enemigo, bala) {
+		enemigo.damage(1);
+		bala.kill();
+	},
 	shoot:function(direccion){
         var bullet = this.bullets.getFirstDead();
         if(bullet){

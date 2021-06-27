@@ -12,6 +12,7 @@ Preload.prototype = {
 		this.game.load.image("bala","assets/Player/bullet.png")
 		//cargar mapa
 		this.game.load.image("background","assets/Mapa/Tiles/tile_01.png");
+		this.game.load.image("blood","assets/images/blood.png");
 		//cargar enemigos
 		this.game.load.image("robot","assets/Enemies/Robot/robot1_hold.png")
 		this.game.load.image("soldier","assets/Enemies/Soldier/soldier1_hold.png")

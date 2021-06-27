@@ -21,7 +21,7 @@ Game.prototype = {
 		this.player.angle=90;
 		this.game.physics.enable(this.player);
 		this.player.body.collideWorldBounds=true;
-		this.vidas = 100;
+		this.vidas = 200;
 		//Crear Grupos
 		this.enemigos=this.game.add.group();
 
@@ -32,7 +32,11 @@ Game.prototype = {
 		this.enemigosInterval=0;
 		this.currentEnemigo=0;
 		this.totalEnemigos=this.enemigosData.length;
-		
+		let style = {
+			fill : "#fff",
+			font : "36px Arial"
+		};
+        this.vidaLabel = this.game.add.text(30,30,"Vidas: "+this.vidas,style);
 	},	
 
 	update:function(){
@@ -96,6 +100,7 @@ Game.prototype = {
 		this.game.physics.arcade.overlap(this.enemigos, this.bullets, null, this.DamageEnemies, this);
 		//Colisión enemigos y jugador
 		this.game.physics.arcade.overlap(this.player, this.enemigos, null, this.DamagePlayer, this);
+		this.game.physics.arcade.collide(this.enemigos, this.enemigos, null, null, this);
 
 	},
 	generarEnemigos:function(enemigosData,direccion){
@@ -131,7 +136,7 @@ Game.prototype = {
 	},
 	DamagePlayer:function(player){
 		this.vidas--;
-		let emitter = this.game.add.emitter(this.x,this.y,50);
+		let emitter = this.game.add.emitter(this.player.x,this.player.y,50);
         emitter.makeParticles('blood');
         emitter.minParticleSpeed.setTo(-100,-100);
         emitter.maxParticleSpeed.setTo(100,100);    
@@ -141,6 +146,7 @@ Game.prototype = {
 			player.kill();
 			this.game.state.start("GameOver"); 
 		}
+		this.vidaLabel.text = "Vidas: "+this.vidas;
 	},
 	shoot:function(direccion){
         var bullet = this.bullets.getFirstDead();

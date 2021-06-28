@@ -48,7 +48,7 @@ Game.prototype = {
 		this.horda = 1;
         this.vidaLabel = this.game.add.text(30,30,"Vidas: "+this.vidas,style);
 		this.puntosLabel = this.game.add.text(240,30,"Puntos: "+this.puntos,style);
-		this.hordasLabel = this.game.add.text(430,30,"Horda: "+this.horda,style);
+		this.hordasLabel = this.game.add.text(450,30,"Horda: "+this.horda,style);
 	},	
 
 	update:function(){

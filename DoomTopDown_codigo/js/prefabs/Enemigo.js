@@ -13,10 +13,10 @@ Enemigo.prototype.constructor = Enemigo;
 Enemigo.prototype.reset = function(x,y,data,horda){
     Phaser.Sprite.prototype.reset.call(this,x,y);
     this.loadTexture(data.asset);
-    this.attack = data.attack * horda;
-    this.health = data.health * horda;
-    this.points = data.points * horda;
-    this.velocity = data.velocity * horda;
+    this.attack = data.attack + horda;
+    this.health = data.health + horda;
+    this.points = data.points + horda;
+    this.velocity = data.velocity;
 },
 
 Enemigo.prototype.damage = function(amount){

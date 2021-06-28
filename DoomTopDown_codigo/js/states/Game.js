@@ -72,7 +72,7 @@ Game.prototype = {
 			}
 		}
 		//Objetos
-		if(this.objetosInterval>=20000){
+		if(this.objetosInterval>=10000){
 			this.objetosInterval=0;
 			this.tipo=this.game.rnd.integerInRange(0,1);
 			this.generarObjetos(this.typos[this.tipo])

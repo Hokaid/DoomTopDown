@@ -21,41 +21,66 @@ Game.prototype = {
 		this.player.angle=90;
 		this.game.physics.enable(this.player);
 		this.player.body.collideWorldBounds=true;
+		this.moodplayer = "player";
 		this.vidas = 200;
 		this.puntos = 0;
 		//Crear Grupos
 		this.enemigos=this.game.add.group();
-
+		this.objetos=this.game.add.group();
 		this.bullets=this.game.add.group();
-		this.velocidadBala=0;
+		this.velocidadBala=650;
+
+		this.objetosInterval=0;
+		this.typos=['comida','caja'];
+		this.Armas=['player','player_machine','player_silencer'];
+		this.balas=['bala','bala_machine','bala_silenciadora']
 
 		this.enemigosData = JSON.parse(this.game.cache.getText("enemigosData"));
 		this.enemigosInterval=0;
 		this.currentEnemigo=0;
+		this.enemigosmuertos=0;
+		this.enemycount=0;
 		this.totalEnemigos=this.enemigosData.length;
 		let style = {
 			fill : "#fff",
 			font : "36px Arial"
 		};
+		this.horda = 1;
         this.vidaLabel = this.game.add.text(30,30,"Vidas: "+this.vidas,style);
 		this.puntosLabel = this.game.add.text(240,30,"Puntos: "+this.puntos,style);
+		this.hordasLabel = this.game.add.text(430,30,"Hordas: "+this.horda,style);
 	},	
 
 	update:function(){
+		console.log(this.enemigosmuertos);
+		//console.log(this.enemycount);
+		if(this.enemigosmuertos >= this.horda * 4 && this.enemycount>0){
+			this.horda++;
+			this.hordasLabel.text = "Hordas: "+this.horda;
+			this.enemycount=0;
+		}
 		//Tiempo
 		this.shootInterval += this.time.elapsed;
 		this.enemigosInterval+=this.time.elapsed;
+		this.objetosInterval+=this.time.elapsed;
 		//Enemmigos
-		if(this.enemigosInterval>=2000){
+		if(this.enemigosInterval>=2000 && this.enemycount < this.horda*4){
 			this.enemigosInterval=0;
 			//console.log(this.enemigosData[this.currentEnemigo])
 			this.direccion=this.game.rnd.integerInRange(0,3);
 			this.generarEnemigos(this.enemigosData[this.currentEnemigo],this.direccion)
 			this.currentEnemigo++;
-			
+			this.enemycount++;
 			if(this.totalEnemigos<=this.currentEnemigo){
 				this.currentEnemigo=0;
 			}
+		}
+		//Objetos
+		if(this.objetosInterval>=2000){
+			this.objetosInterval=0;
+			//console.log(this.enemigosData[this.currentEnemigo])
+			this.tipo=this.game.rnd.integerInRange(0,1);
+			this.generarObjetos(this.typos[this.tipo])
 		}
 		//Movimiento
 		this.player.body.velocity.x = 0;
@@ -97,12 +122,15 @@ Game.prototype = {
 				element.body.velocity.x = 0;
 			}
 		},this);
-
+		//Colision player y objeto
+		this.game.physics.arcade.overlap(this.player, this.objetos, null, this.EvaluarPowerUp, this);
 		//Colisión enemigos y balas
 		this.game.physics.arcade.overlap(this.enemigos, this.bullets, null, this.DamageEnemies, this);
 		//Colisión enemigos y jugador
 		this.game.physics.arcade.overlap(this.player, this.enemigos, null, this.DamagePlayer, this);
 		this.game.physics.arcade.collide(this.enemigos, this.enemigos, null, null, this);
+		this.game.physics.arcade.collide(this.enemigos, this.objetos, null, null, this);
+		this.game.physics.arcade.collide(this.objetos, this.objetos, null, null, this);
 
 	},
 	generarEnemigos:function(enemigosData,direccion){
@@ -123,25 +151,70 @@ Game.prototype = {
         if(enemigo){
             enemigo.reset(posX,posY,enemigosData);            
         } else{
-            enemigo = new Enemigo(this.game, posX, posY,enemigosData);
-			console.log(enemigo)
+            enemigo = new Enemigo(this.game, posX, posY,enemigosData,this.horda);
+			//console.log(enemigo)
         }
         this.enemigos.add(enemigo);
     },
+	generarObjetos:function(tipo){
+		//let posX = this.game.rnd.integerInRange(0,this.game.height-70);
+		let posX, posY;
+		posX = this.game.rnd.integerInRange(0,this.game.width-100);
+		posY = this.game.rnd.integerInRange(0,this.game.height-100);
+		while(this.CompararObjetos(posX)){
+			posX = this.game.rnd.integerInRange(0,this.game.width-100);
+			posY = this.game.rnd.integerInRange(0,this.game.height-100);
+		}
+		//console.log(posX,posY)
+        let objeto = this.objetos.getFirstDead();
+        if(objeto){
+            objeto.reset(posX,posY,tipo);    
+        } else{
+            objeto = new Objetos(this.game, posX, posY,tipo);
+			//console.log(objeto)
+        }
+        this.objetos.add(objeto);
+    },
+	CompararObjetos:function(posX){
+		if(posX<=this.player.x+50 && posX>=this.player.x-50){
+			return true;
+		}
+		let soyTrue=false;
+		this.objetos.forEach(function(element){
+			if(posX<=element.x+50 && posX>=element.x-50){
+				soyTrue = true;
+			}
+		},this,posX,soyTrue);
+		return soyTrue;
+	},
 	createBullet:function(posX,posY){
         let bullet = new Bullet(this.game,posX,posY,this.direccion_j);
         this.bullets.add(bullet);
     },
 	DamageEnemies:function(enemigo, bala) {
-		if (enemigo.health <= 1) {
-			this.puntos = this.puntos + enemigo.points;
-			this.puntosLabel.text = "Puntos: "+this.puntos;
+		switch(this.moodplayer){
+			case 'player':
+				this.actualizarPuntos(2,enemigo);
+				enemigo.damage(2);break;
+			case 'player_machine':
+				this.actualizarPuntos(3,enemigo);
+				enemigo.damage(3);break;
+			case 'player_silencer':
+				this.actualizarPuntos(1,enemigo);
+				enemigo.damage(1);break;
 		}
-		enemigo.damage(1);
 		bala.kill();
 	},
-	DamagePlayer:function(player){
-		this.vidas--;
+	actualizarPuntos:function(dano,enemigo){
+		if (enemigo.health <= dano) {
+			this.puntos = this.puntos + enemigo.points;
+			this.puntosLabel.text = "Puntos: "+this.puntos;
+			this.enemigosmuertos++;
+			console.log(this.enemigosmuertos);
+		}
+	},
+	DamagePlayer:function(player,enemigo){
+		this.vidas-=enemigo.attack;
 		let emitter = this.game.add.emitter(this.player.x,this.player.y,50);
         emitter.makeParticles('blood');
         emitter.minParticleSpeed.setTo(-100,-100);
@@ -167,15 +240,45 @@ Game.prototype = {
             this.game.physics.arcade.enable(bullet);           
         }
 		switch(direccion){
-			case 0: {bullet.body.velocity.x=650;break;}
-			case 1: {bullet.body.velocity.y=650;break;}
-			case 2: {bullet.body.velocity.x=-650;break;}
-			case 3: {bullet.body.velocity.y=-650;break;}
+			case 0: {bullet.body.velocity.x=this.velocidadBala;break;}
+			case 1: {bullet.body.velocity.y=this.velocidadBala;break;}
+			case 2: {bullet.body.velocity.x=-this.velocidadBala;break;}
+			case 3: {bullet.body.velocity.y=-this.velocidadBala;break;}
 		}
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill  = true;
 
-    }
-	
+    },
+	EvaluarPowerUp:function(player,objeto){
+		
+		if(objeto.tipo == 'comida'){
+			if(this.vidas+20 >= 200){
+				this.vidas=200;
+			}else{
+				this.vidas += 20;
+			}
+			this.vidaLabel.text = "Vidas: "+this.vidas;
+		}else if(objeto.tipo == 'caja'){
+			
+			let arma = this.game.rnd.integerInRange(0,2);
+			while(this.Armas[arma] == this.player.texture.key){
+				arma = this.game.rnd.integerInRange(0,2);
+			}
+			this.bullets.forEach(function(element){
+				element.loadTexture(this.balas[arma]);
+				switch(this.moodplayer){
+					case 'player':this.velocidadBala=650;break;
+					case 'player_machine':this.velocidadBala=400;break;
+					case 'player_silencer':this.velocidadBala=800;break;
+				}
+			},this);
+			this.moodplayer=this.Armas[arma];
+			this.player.loadTexture(this.Armas[arma]);
+			console.log(this.Armas[arma]);
+
+		}
+		console.log(objeto.tipo);
+		objeto.kill();
+	}	
 	
 }

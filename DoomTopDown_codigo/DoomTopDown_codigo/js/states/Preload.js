@@ -9,7 +9,11 @@ Preload.prototype = {
 
 		//cargar jugador
 		this.game.load.image("player","assets/Player/hitman1_gun.png")
+		this.game.load.image("player_machine","assets/Player/hitman1_machine.png")
+		this.game.load.image("player_silencer","assets/Player/hitman1_silencer.png")
 		this.game.load.image("bala","assets/Player/bullet.png")
+		this.game.load.image("bala_machine","assets/Mapa/Tiles/tile_318.png")
+		this.game.load.image("bala_silenciadora","assets/Mapa/Tiles/tile_187.png")
 		//cargar mapa
 		this.game.load.image("background","assets/Mapa/Tiles/tile_01.png");
 		this.game.load.image("blood","assets/images/blood.png");
@@ -19,6 +23,12 @@ Preload.prototype = {
 		this.game.load.image("zombie","assets/Enemies/Zombie/zoimbie1_hold.png")
 		//cargar JSON
 		this.game.load.text("enemigosData","assets/Enemies/Enemigos.json");	
+		//cargar objetos
+		this.game.load.image("comida","assets/Mapa/Tiles/tile_215.png")
+		this.game.load.image("caja","assets/Mapa/Tiles/tile_157.png")
+		//Pantalla gameOver
+		this.game.load.image("Death_screen","assets/images/Death_screen.png")
+		this.game.load.image("restart_button","assets/images/restart_button.png")
 		
 	},
 	create:function(){

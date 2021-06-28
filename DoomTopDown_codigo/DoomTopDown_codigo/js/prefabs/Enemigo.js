@@ -1,23 +1,22 @@
-Enemigo = function(game,x,y,element){
+Enemigo = function(game,x,y,element,horda){
     Phaser.Sprite.call(this,game,x,y,element.asset);
     this.game = game;
     this.element = element;
     this.anchor.setTo(0.5);
-    this.velocity = element.velocity;
-    this.points = element.points;
     this.game.physics.arcade.enable(this);
-    this.reset(x,y,element);
+    this.reset(x,y,element,horda);
 }
 
 Enemigo.prototype = Object.create(Phaser.Sprite.prototype);
 Enemigo.prototype.constructor = Enemigo;
 
-Enemigo.prototype.reset = function(x,y,data){
+Enemigo.prototype.reset = function(x,y,data,horda){
     Phaser.Sprite.prototype.reset.call(this,x,y);
     this.loadTexture(data.asset);
-    this.attack = data.attack;
-    this.health = data.health;
-    this.defaultVelocity = data.velocity;
+    this.attack = data.attack * horda;
+    this.health = data.health * horda;
+    this.points = data.points * horda;
+    this.velocity = data.velocity * horda;
 },
 
 Enemigo.prototype.damage = function(amount){

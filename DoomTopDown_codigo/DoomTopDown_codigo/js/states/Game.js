@@ -22,6 +22,7 @@ Game.prototype = {
 		this.game.physics.enable(this.player);
 		this.player.body.collideWorldBounds=true;
 		this.vidas = 200;
+		this.puntos = 0;
 		//Crear Grupos
 		this.enemigos=this.game.add.group();
 
@@ -37,6 +38,7 @@ Game.prototype = {
 			font : "36px Arial"
 		};
         this.vidaLabel = this.game.add.text(30,30,"Vidas: "+this.vidas,style);
+		this.puntosLabel = this.game.add.text(240,30,"Puntos: "+this.puntos,style);
 	},	
 
 	update:function(){
@@ -86,12 +88,12 @@ Game.prototype = {
         }
 		this.enemigos.forEach(function(element){
 			if(Math.abs(element.x-this.player.x) > Math.abs(element.y-this.player.y)) {
-				if(element.x<this.player.x) { element.body.velocity.x = element.velocity; }
-				else {element.body.velocity.x = -1*element.velocity;}
+				if(element.x<this.player.x) { element.body.velocity.x = element.velocity; element.angle=0; }
+				else {element.body.velocity.x = -1*element.velocity; element.angle=180;}
 				element.body.velocity.y = 0;
 			} else {
-				if(element.y<this.player.y) { element.body.velocity.y = element.velocity; }
-				else {element.body.velocity.y = -1*element.velocity;}
+				if(element.y<this.player.y) { element.body.velocity.y = element.velocity; element.angle=90;}
+				else {element.body.velocity.y = -1*element.velocity; element.angle=270;}
 				element.body.velocity.x = 0;
 			}
 		},this);
@@ -131,6 +133,9 @@ Game.prototype = {
         this.bullets.add(bullet);
     },
 	DamageEnemies:function(enemigo, bala) {
+		console.log(enemigo.getPoints());
+		this.puntos = this.puntos + enemigo.getPoints();
+		this.puntosLabel.text = "Puntos: "+this.puntos;
 		enemigo.damage(1);
 		bala.kill();
 	},

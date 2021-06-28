@@ -3,18 +3,21 @@
     "asset": "zombie",
     "health": 3,
     "attack": 0.1,
-    "velocity": 60
+    "velocity": 60,
+    "points": 1
   },
   {
     "asset": "soldier",
     "health": 2,
     "attack": 0.1,
-    "velocity": 100
+    "velocity": 100,
+    "points": 2
   },
   {
     "asset": "robot",
     "health": 6,
     "attack": 0.1,
-    "velocity": 40
+    "velocity": 40,
+    "points": 3
   }
 ]

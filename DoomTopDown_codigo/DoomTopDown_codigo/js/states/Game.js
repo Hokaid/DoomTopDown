@@ -161,10 +161,10 @@ Game.prototype = {
 		let posX, posY;
 		posX = this.game.rnd.integerInRange(0,this.game.width-100);
 		posY = this.game.rnd.integerInRange(0,this.game.height-100);
-		/*while(this.CompararObjetos(posX)){
+		while(posX<=this.player.x+50 && posX>=this.player.x-50){
 			posX = this.game.rnd.integerInRange(0,this.game.width-100);
 			posY = this.game.rnd.integerInRange(0,this.game.height-100);
-		}*/
+		}
 		//console.log(posX,posY)
         let objeto = this.objetos.getFirstDead();
         if(objeto){
@@ -175,18 +175,6 @@ Game.prototype = {
         }
         this.objetos.add(objeto);
     },
-	CompararObjetos:function(posX){
-		if(posX<=this.player.x+50 && posX>=this.player.x-50){
-			return true;
-		}
-		let soyTrue=false;
-		this.objetos.forEach(function(element){
-			if(posX<=element.x+50 && posX>=element.x-50){
-				soyTrue = true;
-			}
-		},this,posX,soyTrue);
-		return soyTrue;
-	},
 	createBullet:function(posX,posY){
         let bullet = new Bullet(this.game,posX,posY,this.direccion_j);
         this.bullets.add(bullet);

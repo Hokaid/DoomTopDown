@@ -48,13 +48,13 @@ Game.prototype = {
 		this.horda = 1;
         this.vidaLabel = this.game.add.text(30,30,"Vidas: "+this.vidas,style);
 		this.puntosLabel = this.game.add.text(240,30,"Puntos: "+this.puntos,style);
-		this.hordasLabel = this.game.add.text(430,30,"Hordas: "+this.horda,style);
+		this.hordasLabel = this.game.add.text(430,30,"Horda: "+this.horda,style);
 	},	
 
 	update:function(){
 		console.log(this.enemigosmuertos);
 		//console.log(this.enemycount);
-		if(this.enemigosmuertos >= this.horda * 4 && this.enemycount>0){
+		if(this.enemigosmuertos >= (this.horda*4) && this.enemycount>0){
 			this.horda++;
 			this.hordasLabel.text = "Hordas: "+this.horda;
 			this.enemycount=0;
@@ -161,10 +161,10 @@ Game.prototype = {
 		let posX, posY;
 		posX = this.game.rnd.integerInRange(0,this.game.width-100);
 		posY = this.game.rnd.integerInRange(0,this.game.height-100);
-		while(this.CompararObjetos(posX)){
+		/*while(this.CompararObjetos(posX)){
 			posX = this.game.rnd.integerInRange(0,this.game.width-100);
 			posY = this.game.rnd.integerInRange(0,this.game.height-100);
-		}
+		}*/
 		//console.log(posX,posY)
         let objeto = this.objetos.getFirstDead();
         if(objeto){
@@ -193,15 +193,9 @@ Game.prototype = {
     },
 	DamageEnemies:function(enemigo, bala) {
 		switch(this.moodplayer){
-			case 'player':
-				this.actualizarPuntos(2,enemigo);
-				enemigo.damage(2);break;
-			case 'player_machine':
-				this.actualizarPuntos(3,enemigo);
-				enemigo.damage(3);break;
-			case 'player_silencer':
-				this.actualizarPuntos(1,enemigo);
-				enemigo.damage(1);break;
+			case 'player': {this.actualizarPuntos(2,enemigo);enemigo.damage(2);}break;
+			case 'player_machine': {this.actualizarPuntos(3,enemigo);enemigo.damage(3);} break;
+			case 'player_silencer': {this.actualizarPuntos(1,enemigo);enemigo.damage(1); } break;
 		}
 		bala.kill();
 	},

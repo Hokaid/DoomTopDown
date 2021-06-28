@@ -133,12 +133,12 @@ Game.prototype = {
         this.bullets.add(bullet);
     },
 	DamageEnemies:function(enemigo, bala) {
-		enemigo.damage(1);
-		bala.kill();
-		if (enemigo.health <= 0) {
+		if (enemigo.health <= 1) {
 			this.puntos = this.puntos + enemigo.points;
 			this.puntosLabel.text = "Puntos: "+this.puntos;
 		}
+		enemigo.damage(1);
+		bala.kill();
 	},
 	DamagePlayer:function(player){
 		this.vidas--;

@@ -5,8 +5,6 @@ Enemigo = function(game,x,y,element){
     this.anchor.setTo(0.5);
     this.velocity = element.velocity;
     this.points = element.points;
-    console.log(element.points);
-    console.log(element.asset);
     this.game.physics.arcade.enable(this);
     this.reset(x,y,element);
 }
@@ -33,8 +31,4 @@ Enemigo.prototype.damage = function(amount){
     if(this.health<=0){
         this.kill();
     }
-}
-
-Enemigo.prototype.getPoints = function() {
-    return this.element.points;
 }

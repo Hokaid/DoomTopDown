@@ -52,8 +52,6 @@ Game.prototype = {
 	},	
 
 	update:function(){
-		console.log(this.enemigosmuertos);
-		//console.log(this.enemycount);
 		if(this.enemigosmuertos >= (this.horda*4) && this.enemycount>0){
 			this.horda++;
 			this.hordasLabel.text = "Hordas: "+this.horda;
@@ -66,7 +64,6 @@ Game.prototype = {
 		//Enemmigos
 		if(this.enemigosInterval>=2000 && this.enemycount < this.horda*4){
 			this.enemigosInterval=0;
-			//console.log(this.enemigosData[this.currentEnemigo])
 			this.direccion=this.game.rnd.integerInRange(0,3);
 			this.generarEnemigos(this.enemigosData[this.currentEnemigo],this.direccion)
 			this.currentEnemigo++;
@@ -78,7 +75,6 @@ Game.prototype = {
 		//Objetos
 		if(this.objetosInterval>=2000){
 			this.objetosInterval=0;
-			//console.log(this.enemigosData[this.currentEnemigo])
 			this.tipo=this.game.rnd.integerInRange(0,1);
 			this.generarObjetos(this.typos[this.tipo])
 		}
@@ -146,13 +142,11 @@ Game.prototype = {
 			case 3:{posX=this.game.rnd.integerInRange(0,this.game.width-100);
 				posY = this.game.height+50;}break;
 		}
-		console.log(posX,posY)
         let enemigo = this.enemigos.getFirstDead();
         if(enemigo){
             enemigo.reset(posX,posY,enemigosData);            
         } else{
             enemigo = new Enemigo(this.game, posX, posY,enemigosData,this.horda);
-			//console.log(enemigo)
         }
         this.enemigos.add(enemigo);
     },
@@ -165,13 +159,11 @@ Game.prototype = {
 			posX = this.game.rnd.integerInRange(0,this.game.width-100);
 			posY = this.game.rnd.integerInRange(0,this.game.height-100);
 		}
-		//console.log(posX,posY)
         let objeto = this.objetos.getFirstDead();
         if(objeto){
             objeto.reset(posX,posY,tipo);    
         } else{
             objeto = new Objetos(this.game, posX, posY,tipo);
-			//console.log(objeto)
         }
         this.objetos.add(objeto);
     },
@@ -192,7 +184,6 @@ Game.prototype = {
 			this.puntos = this.puntos + enemigo.points;
 			this.puntosLabel.text = "Puntos: "+this.puntos;
 			this.enemigosmuertos++;
-			console.log(this.enemigosmuertos);
 		}
 	},
 	DamagePlayer:function(player,enemigo){
@@ -256,10 +247,7 @@ Game.prototype = {
 			},this);
 			this.moodplayer=this.Armas[arma];
 			this.player.loadTexture(this.Armas[arma]);
-			console.log(this.Armas[arma]);
-
 		}
-		console.log(objeto.tipo);
 		objeto.kill();
 	}	
 	

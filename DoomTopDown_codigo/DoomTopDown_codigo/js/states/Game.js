@@ -52,7 +52,7 @@ Game.prototype = {
 	},	
 
 	update:function(){
-		if(this.enemigosmuertos >= (this.horda*4) && this.enemycount>0){
+		if((this.enemigosmuertos >= this.horda*4) && (this.enemycount>0)){
 			this.horda++;
 			this.hordasLabel.text = "Hordas: "+this.horda;
 			this.enemycount=0;
@@ -67,13 +67,12 @@ Game.prototype = {
 			this.direccion=this.game.rnd.integerInRange(0,3);
 			this.generarEnemigos(this.enemigosData[this.currentEnemigo],this.direccion)
 			this.currentEnemigo++;
-			this.enemycount++;
 			if(this.totalEnemigos<=this.currentEnemigo){
 				this.currentEnemigo=0;
 			}
 		}
 		//Objetos
-		if(this.objetosInterval>=2000){
+		if(this.objetosInterval>=20000){
 			this.objetosInterval=0;
 			this.tipo=this.game.rnd.integerInRange(0,1);
 			this.generarObjetos(this.typos[this.tipo])
@@ -144,11 +143,13 @@ Game.prototype = {
 		}
         let enemigo = this.enemigos.getFirstDead();
         if(enemigo){
-            enemigo.reset(posX,posY,enemigosData);            
+            enemigo.reset(posX,posY,enemigosData,this.horda);            
         } else{
             enemigo = new Enemigo(this.game, posX, posY,enemigosData,this.horda);
         }
         this.enemigos.add(enemigo);
+		this.enemycount++;
+		console.log("Me suma: ", this.enemycount);
     },
 	generarObjetos:function(tipo){
 		//let posX = this.game.rnd.integerInRange(0,this.game.height-70);

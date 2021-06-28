@@ -149,7 +149,6 @@ Game.prototype = {
         }
         this.enemigos.add(enemigo);
 		this.enemycount++;
-		console.log("Me suma: ", this.enemycount);
     },
 	generarObjetos:function(tipo){
 		//let posX = this.game.rnd.integerInRange(0,this.game.height-70);

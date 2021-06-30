@@ -6,6 +6,7 @@ Preload.prototype = {
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.game.scale.pageAlignHorizontally = true;
 		this.game.scale.pageAlignVertically = true;
+		
 
 		//cargar jugador
 		this.game.load.image("player","assets/Player/hitman1_gun.png")
@@ -29,9 +30,15 @@ Preload.prototype = {
 		//Pantalla gameOver
 		this.game.load.image("Death_screen","assets/images/Death_screen.png")
 		this.game.load.image("restart_button","assets/images/restart_button.png")
+
+		//FIREBASE
+		this.user_id = this.alfa_numerico();
 		
 	},
 	create:function(){
-		this.game.state.start("Menu");
-	}
+		this.game.state.start("Menu",true,false,this.user_id);
+	},
+	alfa_numerico:function(){
+		return Math.random().toString(36).slice(2);
+	},
 }

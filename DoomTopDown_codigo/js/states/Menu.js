@@ -41,9 +41,12 @@ Menu.prototype = {
         this.integrante3 = this.game.add.text(10,120,"Geral Hokaid",style);        
 
     },
+    init:function(user_id){        
+        this.user_id = user_id;
+    },
     click:function(){
         if (this.Start_Button.visible == true)
-            this.game.state.start("Game");
+            this.game.state.start("Game",true,false,this.user_id);
     }
 
 }

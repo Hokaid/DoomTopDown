@@ -1,16 +1,15 @@
 Game = function(game){}
 
 Game.prototype = {
-	init:function(){
+	init:function(user_id){		
 		this.game.physics.startSystem(Phaser.Physics.ARCADE);
 		//this.game.physics.arcade.gravity.y = 1000;
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 		this.shootInterval=0;
-		this.direccion_j=1;
-		
+		this.direccion_j=1;		
+		this.user_id = user_id;				
 	},
-	
-	
+		
 	create:function(){	
 		//Crear mapa
 		this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
@@ -49,6 +48,10 @@ Game.prototype = {
         this.vidaLabel = this.game.add.text(30,30,"Vidas: "+this.vidas,style);
 		this.puntosLabel = this.game.add.text(240,30,"Puntos: "+this.puntos,style);
 		this.hordasLabel = this.game.add.text(450,30,"Horda: "+this.horda,style);
+
+		//FIREBASE
+		this.date = this.funcion_fecha();
+
 	},	
 
 	update:function(){
@@ -194,11 +197,12 @@ Game.prototype = {
         emitter.maxParticleSpeed.setTo(100,100);    
         emitter.gravity = 300;
         emitter.start(true,200,null,100);
-		if (this.vidas <= 0) { 
-			player.kill();
-			this.game.state.start("GameOver"); 
+		if (this.vidas <= 0) {
+			console.log(this.user_id)
+			this.GameOver(player);
 		}
 		this.vidaLabel.text = "Vidas: "+this.vidas;
+
 	},
 	shoot:function(direccion){
         var bullet = this.bullets.getFirstDead();
@@ -249,6 +253,39 @@ Game.prototype = {
 			this.player.loadTexture(this.Armas[arma]);
 		}
 		objeto.kill();
-	}	
+	},	
+
+	alfa_numerico:function(){        
+		return Math.random().toString(36).slice(2); //crea el ID aleatorio para el usuario
+	},
+
+	funcion_fecha:function(){
+		var today = new Date();
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //Enero es 0
+		var yyyy = today.getFullYear();
+		today = dd + '/' + mm + '/' + yyyy;
+		return today;
+	},
+
+    writeUserData:function (user_id, score, created_at) {
+        userIDID = this.alfa_numerico(); //esto va a escribir los datos del usuario en la base de datos		
+        firebase.database().ref('user_scores/' + userIDID).set({          
+          userID: user_id,
+          Score: score,
+          Fecha: created_at,
+        });
+    },
+
+	Ver_Puntaje:function(){
+		this.game.state.start("Scores",true,false,this.user_id); //manda al estado "Scores"
+	},
+
+	GameOver:function(player){
+		this.writeUserData(this.user_id,this.puntos,this.date);
+		player.kill();
+		this.game.state.start("GameOver",true,false,this.user_id); 
+	}
+
 	
 }

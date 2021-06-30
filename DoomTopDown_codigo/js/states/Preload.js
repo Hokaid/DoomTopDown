@@ -30,6 +30,8 @@ Preload.prototype = {
 		//Pantalla gameOver
 		this.game.load.image("Death_screen","assets/images/Death_screen.png")
 		this.game.load.image("restart_button","assets/images/restart_button.png")
+		//Imagen game Over
+		this.game.load.image("gameoverpng", "assets/Menu/GameOver_text.png")
 
 		//FIREBASE
 		this.user_id = this.alfa_numerico();

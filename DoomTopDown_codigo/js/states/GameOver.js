@@ -9,17 +9,23 @@ GameOver.prototype = {
 			fill : "#fff",
 			font : "60px Arial"
 		};
-        this.sunLabel = this.game.add.text(this.world.centerX,this.world.centerY-200,"Game Over",style);
+        this.sunLabel = this.game.add.text(this.world.centerX+900,this.world.centerY-200,"Game Over",style);
         this.sunLabel.anchor.setTo(0.5);
+        //boton restart
         this.restart_button = this.game.add.sprite(0,0,'restart_button');
         this.restart_button.scale.setTo(1.5);
-        this.restart_button.anchor.setTo(0.5);
-        this.restart_button.x = this.world.centerX;
-        this.restart_button.y = ((this.game.height-this.restart_button.height)/2)+100;
-        //this.restart_button.scale.setTo(2);
+        //this.restart_button.anchor.setTo(0.5);
+        this.restart_button.x = 20;
+        this.restart_button.y = this.game.height-100;
         this.restart_button.inputEnabled = true;
         this.restart_button.visible = true;
         this.restart_button.events.onInputDown.add(this.click,this);
+
+        //imagen game over
+        this.gameoverpng = this.game.add.sprite(0,0,'gameoverpng');
+        this.gameoverpng.anchor.setTo(0.5);
+        this.gameoverpng.x = this.world.centerX+150;
+        this.gameoverpng.y = this.game.height-50; 
 
         //FIREBASE
         this.scores = this.game.add.text(this.game.world.centerX,this.game.world.centerY-310,'Puntajes');

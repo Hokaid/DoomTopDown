@@ -30,6 +30,15 @@ Menu.prototype = {
         this.Start_Button.inputEnabled = true;
         this.Start_Button.visible = true;
         this.Start_Button.events.onInputDown.add(this.click,this);
+        //Integrantes
+        let style = {
+            fill : "#fff",
+            font : "36px Arial"
+        };
+        this.lista_integrantes = this.game.add.text(10,0,"Integrantes: ",style);
+        this.integrante1 = this.game.add.text(10,40,"Joaquín Aguirre Peralta",style);
+        this.integrante2 = this.game.add.text(10,80,"Franco Vigil Bravo",style);
+        this.integrante3 = this.game.add.text(10,120,"Geral Hokaid",style);        
 
     },
     click:function(){

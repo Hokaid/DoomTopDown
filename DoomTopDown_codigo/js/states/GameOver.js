@@ -13,10 +13,10 @@ GameOver.prototype = {
         this.sunLabel.anchor.setTo(0.5);
         //boton restart
         this.restart_button = this.game.add.sprite(0,0,'restart_button');
-        this.restart_button.scale.setTo(1.5);
+        this.restart_button.scale.setTo(1);
         //this.restart_button.anchor.setTo(0.5);
         this.restart_button.x = 20;
-        this.restart_button.y = this.game.height-100;
+        this.restart_button.y = this.game.height-80;
         this.restart_button.inputEnabled = true;
         this.restart_button.visible = true;
         this.restart_button.events.onInputDown.add(this.click,this);
@@ -28,14 +28,14 @@ GameOver.prototype = {
         this.gameoverpng.y = this.game.height-50; 
 
         //FIREBASE
-        this.scores = this.game.add.text(this.game.world.centerX,this.game.world.centerY-310,'Puntajes');
+        this.scores = this.game.add.text(this.game.world.centerX-75,this.game.world.centerY-310,'Puntajes');
         this.scores.fill = "#FFFFFF";
         //imprimimos los 
-        this.userid = this.game.add.text(this.game.world.centerX-300,this.game.world.centerY-250,'User ID')
+        this.userid = this.game.add.text(this.game.world.centerX-375,this.game.world.centerY-250,'User ID')
         this.userid.fill = "#FFFFFF";
-        this.scores_final = this.game.add.text(this.game.world.centerX,this.game.world.centerY-250,'Scores')
+        this.scores_final = this.game.add.text(this.game.world.centerX-75,this.game.world.centerY-250,'Scores')
         this.scores_final.fill = "#FFFFFF";
-        this.fechas_f = this.game.add.text(this.game.world.centerX+300,this.game.world.centerY-250,'Fechas')
+        this.fechas_f = this.game.add.text(this.game.world.centerX+225,this.game.world.centerY-250,'Fechas')
         this.fechas_f.fill = "#FFFFFF";
 
         const query = firebase.database().ref('user_scores').limitToLast(10); //muestra hasta un máximo de 10 users
@@ -46,11 +46,11 @@ GameOver.prototype = {
             cont = 0;
             for(var i in imprimir){
                 cont += 50; 
-                this.userid = this.game.add.text(this.game.world.centerX-300,(this.game.world.centerY-250)+cont,imprimir[i].userID);
+                this.userid = this.game.add.text(this.game.world.centerX-375,(this.game.world.centerY-250)+cont,imprimir[i].userID);
                 this.userid.fill = "#FFFFFF";
-                this.scores_final = this.game.add.text(this.game.world.centerX,(this.game.world.centerY-250)+cont,imprimir[i].Score);
+                this.scores_final = this.game.add.text(this.game.world.centerX-75,(this.game.world.centerY-250)+cont,imprimir[i].Score);
                 this.scores_final.fill = "#FFFFFF";
-                this.fechas_f = this.game.add.text(this.game.world.centerX+300,(this.game.world.centerY-250)+cont,imprimir[i].Fecha);
+                this.fechas_f = this.game.add.text(this.game.world.centerX+225,(this.game.world.centerY-250)+cont,imprimir[i].Fecha);
                 this.fechas_f.fill = "#FFFFFF";       
             }
         },this);

@@ -6,9 +6,8 @@ Preload.prototype = {
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.game.scale.pageAlignHorizontally = true;
 		this.game.scale.pageAlignVertically = true;
-		
 
-		//cargar jugador
+		//cargar jugador 
 		this.game.load.image("player","assets/Player/hitman1_gun.png")
 		this.game.load.image("player_machine","assets/Player/hitman1_machine.png")
 		this.game.load.image("player_silencer","assets/Player/hitman1_silencer.png")
@@ -32,7 +31,8 @@ Preload.prototype = {
 		this.game.load.image("restart_button","assets/images/restart_button.png")
 		//Imagen game Over
 		this.game.load.image("gameoverpng", "assets/Menu/GameOver_text.png")
-
+		//Cargar Musica
+		this.game.load.audio('hot', ['assets/audios/doom.mp3']);
 		//FIREBASE
 		this.user_id = this.alfa_numerico();
 		

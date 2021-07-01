@@ -38,8 +38,7 @@ Menu.prototype = {
         this.lista_integrantes = this.game.add.text(10,0,"Integrantes: ",style);
         this.integrante1 = this.game.add.text(10,40,"Joaquín Aguirre Peralta",style);
         this.integrante2 = this.game.add.text(10,80,"Franco Vigil Bravo",style);
-        this.integrante3 = this.game.add.text(10,120,"Geral Hokaid",style);        
-
+        this.integrante3 = this.game.add.text(10,120,"Geral Esteen Castillo Arredondo",style);     
     },
     init:function(user_id){        
         this.user_id = user_id;

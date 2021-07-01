@@ -10,9 +10,13 @@ Game.prototype = {
 		this.user_id = user_id;				
 	},
 		
-	create:function(){	
+	create:function(){	 
 		//Crear mapa
 		this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
+
+		//Play Musica
+        this.music = new Phaser.Sound(this.game,'hot',1,true);
+		this.music.play();
 
 		//Crear jugador
 		this.player = this.game.add.sprite(this.game.width/2,this.game.height/2,'player');
@@ -104,7 +108,9 @@ Game.prototype = {
 			this.direccion_j=3;
         }
 		//Disparo
-		if( (this.input.keyboard.isDown(Phaser.Keyboard.Z))
+		if( (this.input.keyboard.isDown(Phaser.Keyboard.Z) || 
+		    this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || 
+			this.input.keyboard.isDown(Phaser.Keyboard.X))
                     && this.shootInterval >=300){
             this.shootInterval = 0;
             this.shoot(this.direccion_j);
@@ -227,7 +233,8 @@ Game.prototype = {
 
     },
 	EvaluarPowerUp:function(player,objeto){
-		
+		console.log("sisoy");
+		console.log(objeto.tipo);
 		if(objeto.tipo == 'comida'){
 			if(this.vidas+20 >= 200){
 				this.vidas=200;
@@ -241,6 +248,7 @@ Game.prototype = {
 			while(this.Armas[arma] == this.player.texture.key){
 				arma = this.game.rnd.integerInRange(0,2);
 			}
+		    console.log(this.balas[arma]);
 			this.bullets.forEach(function(element){
 				element.loadTexture(this.balas[arma]);
 				switch(this.moodplayer){
@@ -285,6 +293,7 @@ Game.prototype = {
 		this.writeUserData(this.user_id,this.puntos,this.date);
 		player.kill();
 		this.game.state.start("GameOver",true,false,this.user_id); 
+		this.music.stop();
 	}
 
 	

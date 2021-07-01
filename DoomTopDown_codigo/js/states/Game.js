@@ -15,8 +15,9 @@ Game.prototype = {
 		this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
 
 		//Play Musica
-        this.music = new Phaser.Sound(this.game,'hot',1,true);
-		this.music.play();
+        this.backgroundMusic = this.game.add.audio('hot');
+        this.backgroundMusic.loop = true; // This is what you are looking for
+        this.backgroundMusic.play();
 
 		//Crear jugador
 		this.player = this.game.add.sprite(this.game.width/2,this.game.height/2,'player');
@@ -160,7 +161,6 @@ Game.prototype = {
 		this.enemycount++;
     },
 	generarObjetos:function(tipo){
-		//let posX = this.game.rnd.integerInRange(0,this.game.height-70);
 		let posX, posY;
 		posX = this.game.rnd.integerInRange(0,this.game.width-100);
 		posY = this.game.rnd.integerInRange(0,this.game.height-100);
@@ -233,8 +233,6 @@ Game.prototype = {
 
     },
 	EvaluarPowerUp:function(player,objeto){
-		console.log("sisoy");
-		console.log(objeto.tipo);
 		if(objeto.tipo == 'comida'){
 			if(this.vidas+20 >= 200){
 				this.vidas=200;
@@ -245,7 +243,7 @@ Game.prototype = {
 		}else if(objeto.tipo == 'caja'){
 			
 			let arma = this.game.rnd.integerInRange(0,2);
-			while(this.Armas[arma] == this.player.texture.key){
+			while(this.Armas[arma] == player.texture.key){
 				arma = this.game.rnd.integerInRange(0,2);
 			}
 		    console.log(this.balas[arma]);
@@ -258,7 +256,7 @@ Game.prototype = {
 				}
 			},this);
 			this.moodplayer=this.Armas[arma];
-			this.player.loadTexture(this.Armas[arma]);
+			player.loadTexture(this.Armas[arma]);
 		}
 		objeto.kill();
 	},	
@@ -293,7 +291,7 @@ Game.prototype = {
 		this.writeUserData(this.user_id,this.puntos,this.date);
 		player.kill();
 		this.game.state.start("GameOver",true,false,this.user_id); 
-		this.music.stop();
+		this.backgroundMusic.stop();
 	}
 
 	

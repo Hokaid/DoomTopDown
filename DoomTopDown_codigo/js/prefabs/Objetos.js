@@ -14,5 +14,6 @@ Objetos.prototype.constructor = Objetos;
 
 Objetos.prototype.reset = function(x,y,data){
     Phaser.Sprite.prototype.reset.call(this,x,y);
+    this.tipo=data;
     this.loadTexture(data);
 }

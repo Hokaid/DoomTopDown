@@ -252,7 +252,7 @@ Game.prototype = {
 				switch(this.moodplayer){
 					case 'player':this.velocidadBala=650;break;
 					case 'player_machine':this.velocidadBala=400;break;
-					case 'player_silencer':this.velocidadBala=800;break;
+					case 'player_silencer':this.velocidadBala=1200;break;
 				}
 			},this);
 			this.moodplayer=this.Armas[arma];
